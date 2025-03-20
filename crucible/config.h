@@ -1,55 +1,58 @@
+/**
+ * Configuration Management System Header
+ *
+ * This header file defines the data structures and function declarations
+ * for the configuration management system. Include this file in other
+ * source files that need to access configuration data.
+ *
+ * Author: Your Name
+ * Date: March 20, 2025
+ */
+
 #ifndef CONFIG_H
 #define CONFIG_H
 
 #include <stdbool.h>
-#include <limits.h>
 
-// Test mode enum
+/* Component types enumeration */
 typedef enum
 {
-    BASELINE,
-    STRESS,
-    LOAD,
-    SPIKE,
-    ALL
+    COMP_CPU,
+    COMP_MEMORY,
+    COMP_STORAGE,
+    COMP_NETWORK,
+    COMP_ALL,
+    COMP_INVALID
+} Component;
+
+/* Test mode enumeration */
+typedef enum
+{
+    MODE_STRESS,
+    MODE_LOAD,
+    MODE_SPIKE,
+    MODE_BASELINE,
+    MODE_INVALID
 } TestMode;
 
-// Main configuration structure
+/* Configuration structure */
 typedef struct
 {
-    // Components to test
-    bool cpu_enabled;
-    bool memory_enabled;
-    bool storage_enabled;
-    bool network_enabled;
-    bool io_enabled;
+    Component component; /* Component to test */
+    TestMode mode;       /* Test mode */
+    int duration;        /* Total test duration in seconds */
+    int interval;        /* Sampling/logging interval in seconds */
+    int intensity;       /* Stress intensity (0-100) */
+    char *log_dir;       /* Directory for logs */
+    bool verbose;        /* Verbose output flag */
+} Config;
 
-    // Test configuration
-    TestMode mode;
-    int duration_seconds;
-    int sample_frequency_seconds;
-    int diagnostics_duration_seconds;
-
-    // Logging configuration
-    char log_directory[PATH_MAX];
-} TestConfig;
-
-// Initialize configuration with defaults
-void initialize_config(TestConfig *config);
-
-// Parse components string (comma-separated list)
-bool parse_components(const char *components, TestConfig *config);
-
-// Parse test mode string
-bool parse_mode(const char *mode, TestConfig *config);
-
-// Validate configuration values
-bool validate_config(TestConfig *config);
-
-// Estimate total test duration
-int estimate_test_duration(TestConfig *config);
-
-// Sleep until next sample time
-void sleep_until_next_sample(time_t *next_sample, int sample_interval);
+/* Function declarations */
+void init_default_config(Config *config);
+Component parse_component(const char *comp_str);
+TestMode parse_test_mode(const char *mode_str);
+const char *component_to_string(Component comp);
+const char *mode_to_string(TestMode mode);
+bool validate_config(Config *config);
 
 #endif /* CONFIG_H */
