@@ -1,5 +1,3 @@
-I understand you're finding it challenging to visualize how all this fits together in C code. Let me break it down with a simpler, more concrete outline of the project architecture, including actual file names, function signatures, and how they connect.
-
 # Crucible Project Architecture: Simple Breakdown
 
 ## Project File Structure
@@ -102,7 +100,7 @@ void cpu_probe_usage(void);              // Measure and log CPU usage
 
 Let's look at what these functions actually do:
 
-### In cpu_test.c:
+### In cpu_test.c
 
 ```c
 #include <stdio.h>
@@ -265,6 +263,7 @@ int run_cpu_test(void) {
 ## Similar Pattern for Other Components
 
 The memory, storage, and network modules follow the same pattern:
+
 - A main test function called from main.c
 - Stress functions that apply load in different ways
 - Probe functions that measure and log metrics
